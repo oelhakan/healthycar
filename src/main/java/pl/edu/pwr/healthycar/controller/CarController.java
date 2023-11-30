@@ -2,9 +2,13 @@ package pl.edu.pwr.healthycar.controller;
 
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pwr.healthycar.model.Car;
+import pl.edu.pwr.healthycar.model.User;
 import pl.edu.pwr.healthycar.repository.CarRepository;
+import pl.edu.pwr.healthycar.repository.UserRepository;
 
 import java.util.List;
 
@@ -13,6 +17,7 @@ import java.util.List;
 public class CarController {
 
     private final CarRepository carRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/cars")
     public List<Car> getCars(){
@@ -29,9 +34,25 @@ public class CarController {
         return carRepository.findAllByOwnerId(ownerId);
     }
 
-    @PostMapping("/cars")
-    public Car addCar(@RequestBody Car car){
-        return carRepository.save(car);
+    @PostMapping("/cars/add/{userId}")
+    public Car addCar(@RequestBody Car car, @PathVariable String userId){
+        User user = userRepository.findById(new ObjectId(userId)).get();
+        if(user.getIsAdmin() || user.getIsFO()){
+            Car saved = carRepository.save(car);
+            user.setCarCount(user.getCarCount() + 1);
+            userRepository.save(user);
+            return saved;
+        }else{
+            if(user.getCarCount() < 2){
+                Car saved = carRepository.save(car);
+                user.setCarCount(user.getCarCount() + 1);
+                userRepository.save(user);
+                return saved;
+            }else{
+                throw new ResponseStatusException(
+                        HttpStatus.FORBIDDEN, "Car Count Limit Exceeded!");
+            }
+        }
     }
 
     @DeleteMapping("/cars/delete/{id}")
