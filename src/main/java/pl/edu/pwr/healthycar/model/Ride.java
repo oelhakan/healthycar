@@ -10,8 +10,10 @@ import java.util.List;
 @Data
 @Document
 public class Ride {
+
     @Id
     private String id;
+
     private String userId;
     private String carId;
     private LocalDateTime date;

@@ -8,12 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document
 public class Car {
+
     @Id
     private String id;
+
     private String ownerId;
     private String name;
+
     @Indexed(unique = true)
     private String vin;
+
     private String make;
     private String model;
     private Integer year;
