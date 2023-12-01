@@ -34,9 +34,9 @@ public class CarController {
         return carRepository.findAllByOwnerId(ownerId);
     }
 
-    @PostMapping("/cars/add/{userId}")
-    public Car addCar(@RequestBody Car car, @PathVariable String userId){
-        User user = userRepository.findById(new ObjectId(userId)).get();
+    @PostMapping("/cars/add")
+    public Car addCar(@RequestBody Car car){
+        User user = userRepository.findById(new ObjectId(car.getOwnerId())).get();
         if(user.getIsAdmin() || user.getIsFO()){
             Car saved = carRepository.save(car);
             user.setCarCount(user.getCarCount() + 1);
