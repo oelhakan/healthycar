@@ -57,6 +57,10 @@ public class CarController {
 
     @DeleteMapping("/cars/delete/{id}")
     public String deleteCar(@PathVariable String id) {
+        Car car = carRepository.findById(new ObjectId(id)).get();
+        User user  = userRepository.findById(new ObjectId(car.getOwnerId())).get();
+        user.setCarCount(user.getCarCount() - 1);
+        userRepository.save(user);
         carRepository.deleteById(id);
         return "Car " + id + " deleted successfully.";
     }

@@ -34,7 +34,7 @@ public class RideController {
         return rideRepository.findAllByCarId(carId);
     }
 
-    @PostMapping("/rides")
+    @PostMapping("/rides/add")
     public Ride addRide(@RequestBody Ride ride) {
         return rideRepository.save(ride);
     }

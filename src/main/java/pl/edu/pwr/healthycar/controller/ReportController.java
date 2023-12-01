@@ -29,7 +29,7 @@ public class ReportController {
         return reportRepository.findAllByCarId(carId);
     }
 
-    @PostMapping("/reports")
+    @PostMapping("/reports/add")
     public Report addReport(@RequestBody Report report) {
         return reportRepository.save(report);
     }
