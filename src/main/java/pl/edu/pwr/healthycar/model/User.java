@@ -32,4 +32,14 @@ public class User {
         this.isFO = isFO;
         this.carCount = carCount;
     }
+
+    public User(String firstName, String lastName, String email, String password, Boolean isFO) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = false;
+        this.isFO = isFO;
+        this.carCount = 0;
+    }
 }
