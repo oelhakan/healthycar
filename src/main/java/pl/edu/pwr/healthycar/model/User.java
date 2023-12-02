@@ -23,6 +23,10 @@ public class User {
     private Boolean isFO;
     private Integer carCount;
 
+    public User(){
+
+    }
+
     public User(String firstName, String lastName, String email, String password, Boolean isAdmin, Boolean isFO, Integer carCount) {
         this.firstName = firstName;
         this.lastName = lastName;
