@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HealthycarApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(HealthycarApplication.class, args);
 	}
-
-
 }
