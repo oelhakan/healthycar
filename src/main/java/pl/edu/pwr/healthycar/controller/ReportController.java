@@ -21,7 +21,7 @@ public class ReportController {
     public List<Report> getReports() {
         log.debug("REQ => /reports");
         List<Report> reports = reportRepository.findAll();
-        log.debug(String.format("Queried DB for reports. Found %d %s", reports.size(), reports.size() == 1 ? " report." : " reports."));
+        log.debug(String.format("Queried DB for reports. Found %d %s", reports.size(), reports.size() == 1 ? "report." : "reports."));
         log.debug("RES => " + reports);
         return reportRepository.findAll();
     }
@@ -39,7 +39,7 @@ public class ReportController {
     public List<Report> getCarReports(@PathVariable String carId) {
         log.debug("REQ => /reports/car/" + carId);
         List<Report> carReports = reportRepository.findAllByCarId(carId);
-        log.debug(String.format("Queried DB for reports with car ID %s. Found %d %s", carId, carReports.size(), carReports.size() == 1 ? " report." : " reports."));
+        log.debug(String.format("Queried DB for reports with car ID %s. Found %d %s", carId, carReports.size(), carReports.size() == 1 ? "report." : "reports."));
         log.debug("RES => " + carReports);
         return reportRepository.findAllByCarId(carId);
     }
