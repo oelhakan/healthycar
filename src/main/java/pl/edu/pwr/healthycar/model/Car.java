@@ -1,12 +1,14 @@
 package pl.edu.pwr.healthycar.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
+@NoArgsConstructor
 public class Car {
 
     @Id
@@ -21,13 +23,4 @@ public class Car {
     private String make;
     private String model;
     private Integer year;
-
-    public Car(String ownerId, String name, String vin, String make, String model, Integer year) {
-        this.ownerId = ownerId;
-        this.name = name;
-        this.vin = vin;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-    }
 }

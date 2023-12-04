@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.healthycar.model.Ride;
 import pl.edu.pwr.healthycar.repository.RideRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -29,9 +30,11 @@ public class RideController {
         return rideRepository.findAllByUserId(userId);
     }
 
-    @GetMapping("/rides/car/{carId}")
-    public List<Ride> getCarRides(@PathVariable String carId) {
-        return rideRepository.findAllByCarId(carId);
+    @GetMapping("/rides/latest/{carId}")
+    public Ride getCarRides(@PathVariable String carId) {
+        List<Ride> carRides = rideRepository.findAllByCarId(carId);
+        carRides.sort(Comparator.comparing(Ride::getDate).reversed());
+        return carRides.size() > 0 ? carRides.get(0) : null;
     }
 
     @PostMapping("/rides/add")

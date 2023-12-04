@@ -2,8 +2,8 @@ package pl.edu.pwr.healthycar.controller;
 
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pwr.healthycar.model.LoginInfo;
@@ -18,7 +18,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -33,7 +32,8 @@ public class UserController {
     @PostMapping("/users/add")
     public User addUser(@RequestBody User user) {
         user.setCarCount(0);
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setIsAdmin(false);
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         return userRepository.save(user);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     public User login(@RequestBody LoginInfo loginInfo) {
         Optional<User> user = userRepository.findByEmail(loginInfo.getEmail());
         if(user.isPresent()){
-            if(encoder.matches(loginInfo.getPassword(), user.get().getPassword())){
+            if(BCrypt.checkpw(loginInfo.getPassword(), user.get().getPassword())){
                 return user.get();
             }else{
                 throw new ResponseStatusException(
@@ -58,6 +58,4 @@ public class UserController {
                     HttpStatus.UNAUTHORIZED, "No user found with email " + loginInfo.getEmail() + "!");
         }
     }
-
-    //TODO - Edit User
 }
