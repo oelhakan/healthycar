@@ -39,8 +39,8 @@ public class UserController {
         return user.orElse(null);
     }
 
-    @PostMapping("/users/add")
-    public User addUser(@RequestBody User user) {
+    @PostMapping("/users/save")
+    public User upsertUser(@RequestBody User user) {
         log.debug("REQ => /users/add");
         log.debug("Adding user with request body " + user);
 
@@ -50,14 +50,16 @@ public class UserController {
                 log.debug("User with ID " + user.getId() + " already exists. Updated the record.");
             }else{
                 log.debug("User with ID " + user.getId() + " does not exist. Created new record.");
+                log.debug("Set default values to carCount(0) and isAdmin(false).");
+                user.setCarCount(0);
+                user.setIsAdmin(false);
             }
         }catch(IllegalArgumentException ex){
             log.debug("User ID was not provided in request body. Created new record with auto generated ID.");
+            log.debug("Set default values to carCount(0) and isAdmin(false).");
+            user.setCarCount(0);
+            user.setIsAdmin(false);
         }
-
-        log.debug("Set default values to carCount(0) and isAdmin(false).");
-        user.setCarCount(0);
-        user.setIsAdmin(false);
         log.debug("Hashing user password. Before hashing : " + user.getPassword());
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(hashedPassword);

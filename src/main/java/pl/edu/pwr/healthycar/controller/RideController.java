@@ -57,8 +57,8 @@ public class RideController {
         return carRides.size() > 0 ? carRides.get(0) : null;
     }
 
-    @PostMapping("/rides/add")
-    public Ride addRide(@RequestBody Ride ride) {
+    @PostMapping("/rides/save")
+    public Ride upsertRide(@RequestBody Ride ride) {
         log.debug("REQ => /rides/add");
         log.debug("Adding ride with request body " + ride);
 

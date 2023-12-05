@@ -44,8 +44,8 @@ public class ReportController {
         return reportRepository.findAllByCarId(carId);
     }
 
-    @PostMapping("/reports/add")
-    public Report addReport(@RequestBody Report report) {
+    @PostMapping("/reports/save")
+    public Report upsertReport(@RequestBody Report report) {
         log.debug("REQ => /reports/add");
         log.debug("Adding report with request body " + report);
 

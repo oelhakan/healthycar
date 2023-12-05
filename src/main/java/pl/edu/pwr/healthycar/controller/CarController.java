@@ -49,8 +49,8 @@ public class CarController {
         return userCars;
     }
 
-    @PostMapping("/cars/add")
-    public Car addCar(@RequestBody Car car){
+    @PostMapping("/cars/save")
+    public Car upsertCar(@RequestBody Car car){
         log.debug("REQ => /cars/add");
         log.debug("Adding car with request body " + car);
         User user = userRepository.findById(new ObjectId(car.getOwnerId())).get();
