@@ -75,30 +75,6 @@ public class CarController {
         }
     }
 
-    public Car saveCar(Car car){
-        try{
-            Optional<Car> dbCar = carRepository.findById(car.getId());
-            if(dbCar.isPresent()){
-                log.debug("Car with ID " + car.getId() + " already exists. Updated the record.");
-            }else{
-                log.debug("Car with ID " + car.getId() + " does not exist. Created new record.");
-            }
-        }catch(IllegalArgumentException ex){
-            log.debug("Car ID was not provided in request body. Created new record with auto generated ID.");
-        }
-        Car savedCar = carRepository.save(car);
-
-        log.debug("RES => " + savedCar);
-        return savedCar;
-    }
-
-    public void incrementCarCount(User user){
-        log.debug("Incrementing car count of user with ID " + user.getId());
-        log.debug("New car count of user : " + (user.getCarCount() + 1));
-        user.setCarCount(user.getCarCount() + 1);
-        userRepository.save(user);
-    }
-
     @DeleteMapping("/cars/delete/{id}")
     public String deleteCar(@PathVariable String id) {
         log.debug("REQ => /cars/delete/" + id);
@@ -119,5 +95,29 @@ public class CarController {
             log.debug("RES => Car with ID " + id + " is not present in DB.");
             return "Car with ID " + id + " is not present in DB.";
         }
+    }
+
+    private Car saveCar(Car car){
+        try{
+            Optional<Car> dbCar = carRepository.findById(car.getId());
+            if(dbCar.isPresent()){
+                log.debug("Car with ID " + car.getId() + " already exists. Updated the record.");
+            }else{
+                log.debug("Car with ID " + car.getId() + " does not exist. Created new record.");
+            }
+        }catch(IllegalArgumentException ex){
+            log.debug("Car ID was not provided in request body. Created new record with auto generated ID.");
+        }
+        Car savedCar = carRepository.save(car);
+
+        log.debug("RES => " + savedCar);
+        return savedCar;
+    }
+
+    private void incrementCarCount(User user){
+        log.debug("Incrementing car count of user with ID " + user.getId());
+        log.debug("New car count of user : " + (user.getCarCount() + 1));
+        user.setCarCount(user.getCarCount() + 1);
+        userRepository.save(user);
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pwr.healthycar.model.LoginInfo;
 import pl.edu.pwr.healthycar.model.User;
 import pl.edu.pwr.healthycar.repository.UserRepository;
+import pl.edu.pwr.healthycar.service.UserService;
+import pl.edu.pwr.healthycar.utilities.HealthyCarUtilities;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -88,10 +91,12 @@ public class UserController {
 
     @PostMapping("/users/login")
     public User login(@RequestBody LoginInfo loginInfo) {
+        log.debug("REQ => /users/login");
+        log.debug("Log in info : " + loginInfo);
         Optional<User> user = userRepository.findByEmail(loginInfo.getEmail());
         log.debug("Queried DB for user with email " + loginInfo.getEmail() + ". User " + (user.isPresent() ? "exists." : "does not exist."));
         if(user.isPresent()){
-            log.debug("User : " + user);
+            log.debug("User : " + user.get());
             if(BCrypt.checkpw(loginInfo.getPassword(), user.get().getPassword())){
                 log.debug("Password " + loginInfo.getPassword() + " matches users password. Log in successful.");
                 log.debug("RES => " + user.get());
@@ -105,6 +110,33 @@ public class UserController {
             log.debug("No user found with email " + loginInfo.getEmail() + ". Log in failed.");
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED, "No user found with email " + loginInfo.getEmail() + "!");
+        }
+    }
+
+    @GetMapping("/users/reset/{email}")
+    public String resetPassword(@PathVariable String email){
+        log.debug("REQ => /users/reset/" + email);
+        Optional<User> user = userRepository.findByEmail(email);
+        log.debug("Queried DB for user with email " + email + ". User " + (user.isPresent() ? "exists." : "does not exist."));
+
+        if(user.isPresent()){
+            log.debug("User : " + user.get());
+            User savedUser = user.get();
+            String generatedPassword = HealthyCarUtilities.generatePassword();
+            log.debug("Generated random password for " + email + ".");
+            log.debug("Hashing user password. Before hashing : " + generatedPassword);
+            String hashedPassword = BCrypt.hashpw(generatedPassword, BCrypt.gensalt());
+            savedUser.setPassword(hashedPassword);
+            log.debug("Finished hashing user password. After hashing : " + hashedPassword);
+            userRepository.save(savedUser);
+            log.debug("Password reset successful for user " + savedUser);
+            userService.sendSimpleMessage(email, "HealthyCar Password Reset", generatedPassword);
+            log.debug("RES => Password reset successful for user " + savedUser.getEmail() + ". Your new password has been sent to your email.");
+            return "Password reset successful for user " + savedUser.getEmail() + ". Your new password has been sent to your email.";
+        }else{
+            log.debug("No user found with email " + email + ". Password reset failed.");
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "No user found with email " + email + "!");
         }
     }
 }
