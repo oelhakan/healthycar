@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pwr.healthycar.persistence.model.Report;
+import pl.edu.pwr.healthycar.api.model.Report;
 import pl.edu.pwr.healthycar.persistence.repository.ReportRepository;
 
 import java.util.List;
@@ -38,14 +38,14 @@ public class ReportService {
     public Report upsertReport(Report report) {
         log.debug("Adding report with request body " + report);
 
-        try{
+        try {
             Optional<Report> dbReport = reportRepository.findById(report.getId());
-            if(dbReport.isPresent()){
+            if (dbReport.isPresent()) {
                 log.debug("Report with ID " + report.getId() + " already exists. Updated the record.");
-            }else{
+            } else {
                 log.debug("Report with ID " + report.getId() + " does not exist. Created new record.");
             }
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             log.debug("Report ID was not provided in request body. Created new record with auto generated ID.");
         }
 
@@ -55,11 +55,11 @@ public class ReportService {
     public String deleteReport(String id) {
         Optional<Report> report = reportRepository.findById(new ObjectId(id));
         log.debug("Queried DB for report with ID " + id + ". Report " + (report.isPresent() ? "exists." : "does not exist."));
-        if(report.isPresent()){
+        if (report.isPresent()) {
             reportRepository.deleteById(id);
             log.debug("Deleted report with ID " + id + " from DB.");
             return "Report with ID " + id + " deleted successfully.";
-        }else{
+        } else {
             return "Report with ID " + id + " is not present in DB.";
         }
     }

@@ -1,4 +1,4 @@
-package pl.edu.pwr.healthycar.service.utilities;
+package pl.edu.pwr.healthycar.api.utilities;
 
 public class Endpoints {
 
@@ -29,11 +29,11 @@ public class Endpoints {
     public static final String USERS_RESET_EMAIL = "/users/reset/{email}";
 
 
-    public static String buildRequestLog(String endpoint){
+    public static String buildRequestLog(String endpoint) {
         return "REQ " + endpoint + " => ";
     }
 
-    public static String buildResponseLog(String endpoint){
+    public static String buildResponseLog(String endpoint) {
         return "RES " + endpoint + " => ";
     }
 }

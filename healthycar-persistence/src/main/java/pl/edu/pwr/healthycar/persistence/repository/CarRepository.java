@@ -3,7 +3,8 @@ package pl.edu.pwr.healthycar.persistence.repository;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import pl.edu.pwr.healthycar.persistence.model.Car;
+import pl.edu.pwr.healthycar.api.model.Car;
+
 
 import java.util.List;
 import java.util.Optional;

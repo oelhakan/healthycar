@@ -1,4 +1,4 @@
-package pl.edu.pwr.healthycar.persistence.model;
+package pl.edu.pwr.healthycar.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

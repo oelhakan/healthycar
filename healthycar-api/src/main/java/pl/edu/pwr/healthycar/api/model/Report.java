@@ -1,23 +1,22 @@
-package pl.edu.pwr.healthycar.persistence.model;
+package pl.edu.pwr.healthycar.api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Data
 @Document
 @NoArgsConstructor
-public class Ride {
+public class Report {
 
     @Id
     private String id;
 
-    private String userId;
     private String carId;
-    private LocalDateTime date;
-    private List<Reading> readings;
+    private Double averageSpeed;
+    private Double averageRpm;
+    private Double averageFuel;
+    private Double averageAirTemperature;
+    private Integer totalDistance;
 }

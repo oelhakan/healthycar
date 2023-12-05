@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pwr.healthycar.persistence.model.Ride;
+import pl.edu.pwr.healthycar.api.model.Ride;
 import pl.edu.pwr.healthycar.persistence.repository.RideRepository;
 
 import java.util.Comparator;
@@ -50,14 +50,14 @@ public class RideService {
     public Ride upsertRide(Ride ride) {
         log.debug("Adding ride with request body " + ride);
 
-        try{
+        try {
             Optional<Ride> dbRide = rideRepository.findById(ride.getId());
-            if(dbRide.isPresent()){
+            if (dbRide.isPresent()) {
                 log.debug("Ride with ID " + ride.getId() + " already exists. Updated the record.");
-            }else{
+            } else {
                 log.debug("Ride with ID " + ride.getId() + " does not exist. Created new record.");
             }
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             log.debug("Ride ID was not provided in request body. Created new record with auto generated ID.");
         }
 
@@ -67,11 +67,11 @@ public class RideService {
     public String deleteRide(String id) {
         Optional<Ride> ride = rideRepository.findById(new ObjectId(id));
         log.debug("Queried DB for ride with ID " + id + ". Ride " + (ride.isPresent() ? "exists." : "does not exist."));
-        if(ride.isPresent()){
+        if (ride.isPresent()) {
             rideRepository.deleteById(id);
             log.debug("Deleted ride with ID " + id + " from DB.");
             return "Ride with ID " + id + " deleted successfully.";
-        }else{
+        } else {
             return "Ride with ID " + id + " is not present in DB.";
         }
     }

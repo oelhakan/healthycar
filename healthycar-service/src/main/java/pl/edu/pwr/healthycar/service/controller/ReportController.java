@@ -1,25 +1,24 @@
 package pl.edu.pwr.healthycar.service.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.pwr.healthycar.persistence.model.Report;
+import pl.edu.pwr.healthycar.api.model.Report;
+import pl.edu.pwr.healthycar.api.service.ReportApi;
 import pl.edu.pwr.healthycar.service.service.ReportService;
 
 import java.util.List;
 
-import static pl.edu.pwr.healthycar.service.utilities.Endpoints.*;
+import static pl.edu.pwr.healthycar.api.utilities.Endpoints.*;
 
 @RestController
-@AllArgsConstructor
 @Slf4j
-public class ReportController {
+public class ReportController implements ReportApi {
 
     @Autowired
     private ReportService reportService;
 
-    @GetMapping(REPORTS)
+    @Override
     public List<Report> getReports() {
         log.debug(buildRequestLog(REPORTS));
         List<Report> reports = reportService.getReports();
@@ -27,32 +26,32 @@ public class ReportController {
         return reports;
     }
 
-    @GetMapping(REPORTS_ID)
-    public Report getReport(@PathVariable String id) {
+    @Override
+    public Report getReport(String id) {
         log.debug(buildRequestLog(REPORTS_ID) + id);
         Report report = reportService.getReport(id);
         log.debug(buildResponseLog(REPORTS_ID) + report);
         return report;
     }
 
-    @GetMapping(REPORTS_CAR_CARID)
-    public List<Report> getCarReports(@PathVariable String carId) {
+    @Override
+    public List<Report> getCarReports(String carId) {
         log.debug(buildRequestLog(REPORTS_CAR_CARID) + carId);
         List<Report> carReports = reportService.getCarReports(carId);
         log.debug(buildResponseLog(REPORTS_CAR_CARID) + carReports);
         return carReports;
     }
 
-    @PostMapping(REPORTS_SAVE)
-    public Report upsertReport(@RequestBody Report report) {
+    @Override
+    public Report upsertReport(Report report) {
         log.debug(buildRequestLog(REPORTS_SAVE));
         Report savedReport = reportService.upsertReport(report);
         log.debug(buildResponseLog(REPORTS_SAVE) + savedReport);
         return savedReport;
     }
 
-    @DeleteMapping(REPORTS_DELETE_ID)
-    public String deleteReport(@PathVariable String id) {
+    @Override
+    public String deleteReport(String id) {
         log.debug(buildRequestLog(REPORTS_DELETE_ID) + id);
         String deleteResult = reportService.deleteReport(id);
         log.debug(buildResponseLog(REPORTS_DELETE_ID) + deleteResult);

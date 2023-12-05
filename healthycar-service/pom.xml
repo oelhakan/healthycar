@@ -20,7 +20,12 @@
         <dependency>
             <groupId>pl.edu.pwr</groupId>
             <artifactId>healthycar-persistence</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.edu.pwr</groupId>
+            <artifactId>healthycar-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
