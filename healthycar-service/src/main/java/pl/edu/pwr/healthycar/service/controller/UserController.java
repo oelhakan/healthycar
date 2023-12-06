@@ -3,6 +3,7 @@ package pl.edu.pwr.healthycar.service.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.pwr.healthycar.api.model.ResetInfo;
 import pl.edu.pwr.healthycar.api.model.User;
 import pl.edu.pwr.healthycar.api.model.LoginInfo;
 import pl.edu.pwr.healthycar.api.service.UserApi;
@@ -59,10 +60,10 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public String resetPassword(String email) {
-        log.debug(Endpoints.buildRequestLog(Endpoints.USERS_RESET_EMAIL) + email);
-        String resetResult = userService.resetPassword(email);
-        log.debug(Endpoints.buildResponseLog(Endpoints.USERS_RESET_EMAIL) + resetResult);
+    public String resetPassword(ResetInfo resetInfo) {
+        log.debug(Endpoints.buildRequestLog(Endpoints.USERS_RESET) + resetInfo.getEmail());
+        String resetResult = userService.resetPassword(resetInfo.getEmail());
+        log.debug(Endpoints.buildResponseLog(Endpoints.USERS_RESET) + resetResult);
         return resetResult;
     }
 }

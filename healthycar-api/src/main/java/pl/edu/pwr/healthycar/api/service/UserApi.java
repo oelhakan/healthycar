@@ -2,6 +2,7 @@ package pl.edu.pwr.healthycar.api.service;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.healthycar.api.model.LoginInfo;
+import pl.edu.pwr.healthycar.api.model.ResetInfo;
 import pl.edu.pwr.healthycar.api.model.User;
 import pl.edu.pwr.healthycar.api.utilities.Endpoints;
 
@@ -24,6 +25,6 @@ public interface UserApi {
     @PostMapping(Endpoints.USERS_LOGIN)
     User login(@RequestBody LoginInfo loginInfo);
 
-    @GetMapping(Endpoints.USERS_RESET_EMAIL)
-    String resetPassword(@PathVariable String email);
+    @PostMapping(Endpoints.USERS_RESET)
+    String resetPassword(@RequestBody ResetInfo resetInfo);
 }
