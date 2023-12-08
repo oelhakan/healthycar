@@ -1,12 +1,14 @@
 package pl.edu.pwr.healthycar.api.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class LoginInfo {
     String email;
     String password;

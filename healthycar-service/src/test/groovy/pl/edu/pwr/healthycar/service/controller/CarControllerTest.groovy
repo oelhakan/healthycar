@@ -39,7 +39,7 @@ class CarControllerTest extends Specification {
         0 * _
 
         and:
-        result == car1
+        result == car
     }
 
     def 'should get users cars from carService'(){
@@ -77,13 +77,14 @@ class CarControllerTest extends Specification {
 
     def 'should send ID of the car to be deleted to carService'(){
         given:
+        def carId = "65689b42444cbf0c24cabcf5"
         def deleteResult = "Car with ID 65689b42444cbf0c24cabcf5 deleted successfully."
 
         when:
-        def result = carController.deleteCar("65689b42444cbf0c24cabcf5")
+        def result = carController.deleteCar(carId)
 
         then:
-        1 * carService.deleteCar("65689b42444cbf0c24cabcf5") >> deleteResult
+        1 * carService.deleteCar(carId) >> deleteResult
         0 * _
 
         and:

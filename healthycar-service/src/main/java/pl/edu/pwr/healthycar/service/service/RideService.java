@@ -20,7 +20,7 @@ public class RideService {
 
     public List<Ride> getRides() {
         List<Ride> rides = rideRepository.findAll();
-        log.debug(String.format("Queried DB for rides. Found %d %s", rides.size(), rides.size() == 1 ? "ride." : "rides."));
+        log.debug(String.format("Queried DB for rides. Found %d reports.", rides.size()));
         return rides;
     }
 
@@ -32,13 +32,13 @@ public class RideService {
 
     public List<Ride> getUserRides(String userId) {
         List<Ride> userRides = rideRepository.findAllByUserId(userId);
-        log.debug(String.format("Queried DB for rides with user ID %s. Found %d %s", userId, userRides.size(), userRides.size() == 1 ? "ride." : "rides."));
+        log.debug(String.format("Queried DB for rides with user ID %s. Found %d rides.", userId, userRides.size()));
         return userRides;
     }
 
     public Ride getLatestCarRide(String carId) {
         List<Ride> carRides = rideRepository.findAllByCarId(carId);
-        log.debug(String.format("Queried DB for rides with car ID %s. Found %d %s", carId, carRides.size(), carRides.size() == 1 ? "ride." : "rides."));
+        log.debug(String.format("Queried DB for rides with car ID %s. Found %d rides.", carId, carRides.size()));
         log.debug("Sorting the rides in descending order by date. Rides before : " + carRides);
         carRides.sort(Comparator.comparing(Ride::getDate).reversed());
         log.debug("Finished sorting the rides in descending order by date. Rides after : " + carRides);

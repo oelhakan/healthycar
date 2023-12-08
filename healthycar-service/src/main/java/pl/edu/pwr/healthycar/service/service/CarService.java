@@ -26,7 +26,7 @@ public class CarService {
 
     public List<Car> getCars() {
         List<Car> cars = carRepository.findAll();
-        log.debug(String.format("Queried DB for cars. Found %d %s", cars.size(), cars.size() == 1 ? "car." : "cars."));
+        log.debug(String.format("Queried DB for cars. Found %d reports.", cars.size()));
         return cars;
     }
 
@@ -38,7 +38,7 @@ public class CarService {
 
     public List<Car> getUserCars(String ownerId) {
         List<Car> userCars = carRepository.findAllByOwnerId(ownerId);
-        log.debug(String.format("Queried DB for cars with owner ID %s. Found %d %s", ownerId, userCars.size(), userCars.size() == 1 ? "car." : "cars."));
+        log.debug(String.format("Queried DB for cars with owner ID %s. Found %d cars.", ownerId, userCars.size()));
         return userCars;
     }
 
@@ -65,24 +65,6 @@ public class CarService {
         }
     }
 
-    public String deleteCar(String id) {
-        Optional<Car> car = carRepository.findById(new ObjectId(id));
-        log.debug("Queried DB for car with ID " + id + ". Car " + (car.isPresent() ? "exists." : "does not exist."));
-
-        if (car.isPresent()) {
-            User user = userRepository.findById(new ObjectId(car.get().getOwnerId())).get();
-            log.debug("Queried DB for owner of car with ID " + car.get().getOwnerId() + ". Owner : " + user);
-            log.debug("Decrementing car count of user with ID " + user.getId());
-            log.debug("New car count of user : " + (user.getCarCount() - 1));
-            userRepository.save(user);
-            carRepository.deleteById(id);
-            log.debug("Deleted car with ID " + id + " from DB.");
-            return "Car with ID " + id + " deleted successfully.";
-        } else {
-            return "Car with ID " + id + " is not present in DB.";
-        }
-    }
-
     private Car saveCar(Car car) {
         try {
             Optional<Car> dbCar = carRepository.findById(car.getId());
@@ -103,5 +85,24 @@ public class CarService {
         log.debug("New car count of user : " + (user.getCarCount() + 1));
         user.setCarCount(user.getCarCount() + 1);
         userRepository.save(user);
+    }
+
+    public String deleteCar(String id) {
+        Optional<Car> car = carRepository.findById(new ObjectId(id));
+        log.debug("Queried DB for car with ID " + id + ". Car " + (car.isPresent() ? "exists." : "does not exist."));
+
+        if (car.isPresent()) {
+            User user = userRepository.findById(new ObjectId(car.get().getOwnerId())).get();
+            log.debug("Queried DB for owner of car with ID " + car.get().getOwnerId() + ". Owner : " + user);
+            log.debug("Decrementing car count of user with ID " + user.getId());
+            log.debug("New car count of user : " + (user.getCarCount() - 1));
+            user.setCarCount(user.getCarCount() - 1);
+            userRepository.save(user);
+            carRepository.deleteById(id);
+            log.debug("Deleted car with ID " + id + " from DB.");
+            return "Car with ID " + id + " deleted successfully.";
+        } else {
+            return "Car with ID " + id + " is not present in DB.";
+        }
     }
 }

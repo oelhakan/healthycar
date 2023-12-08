@@ -19,7 +19,7 @@ public class ReportService {
 
     public List<Report> getReports() {
         List<Report> reports = reportRepository.findAll();
-        log.debug(String.format("Queried DB for reports. Found %d %s", reports.size(), reports.size() == 1 ? "report." : "reports."));
+        log.debug(String.format("Queried DB for reports. Found %d reports.", reports.size()));
         return reports;
     }
 
@@ -31,7 +31,7 @@ public class ReportService {
 
     public List<Report> getCarReports(String carId) {
         List<Report> carReports = reportRepository.findAllByCarId(carId);
-        log.debug(String.format("Queried DB for reports with car ID %s. Found %d %s", carId, carReports.size(), carReports.size() == 1 ? "report." : "reports."));
+        log.debug(String.format("Queried DB for reports with car ID %s. Found %d reports.", carId, carReports.size()));
         return carReports;
     }
 

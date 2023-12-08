@@ -60,6 +60,22 @@ class RideControllerTest extends Specification {
         result == rides
     }
 
+    def 'should get latest ride of car from rideService'(){
+        given:
+        def userId = "6558c44eaecff28d670c45df"
+        def ride = Mock(Ride)
+
+        when:
+        def result = rideController.getLatestCarRide(userId)
+
+        then:
+        1 * rideService.getLatestCarRide(userId) >> ride
+        0 * _
+
+        and:
+        result == ride
+    }
+
     def 'should send the ride to be updated/inserted to rideService'(){
         given:
         def ride = Mock(Ride)

@@ -34,7 +34,7 @@ public class UserService {
 
     public List<User> getUsers() {
         List<User> users = userRepository.findAll();
-        log.debug(String.format("Queried DB for users. Found %d %s", users.size(), users.size() == 1 ? "user." : "users."));
+        log.debug(String.format("Queried DB for users. Found %d reports.", users.size()));
         return users;
     }
 

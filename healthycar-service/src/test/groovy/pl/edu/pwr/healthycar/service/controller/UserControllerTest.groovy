@@ -61,13 +61,14 @@ class UserControllerTest extends Specification {
 
     def 'should send ID of the user to be deleted to userService'(){
         given:
+        def userId = "6558c44eaecff28d670c45df"
         def deleteResult = "User with ID 6558c44eaecff28d670c45df deleted successfully."
 
         when:
-        def result = userController.deleteUser("6558c44eaecff28d670c45df")
+        def result = userController.deleteUser(userId)
 
         then:
-        1 * userService.deleteUser("6558c44eaecff28d670c45df") >> deleteResult
+        1 * userService.deleteUser(userId) >> deleteResult
         0 * _
 
         and:
@@ -99,7 +100,7 @@ class UserControllerTest extends Specification {
         def result = userController.resetPassword(resetInfo)
 
         then:
-        1 * userService.resetPassword("atahanergurhan@bunga.com") >> resetResult
+        1 * userService.resetPassword(resetInfo.getEmail()) >> resetResult
         0 * _
 
         and:

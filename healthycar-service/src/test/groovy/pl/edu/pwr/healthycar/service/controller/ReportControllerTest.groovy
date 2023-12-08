@@ -77,13 +77,14 @@ class ReportControllerTest extends Specification {
 
     def 'should send ID of the report to be deleted to reportService'(){
         given:
+        def reportId = "6558c44e215f7deeb2ec2ed7"
         def deleteResult = "Report with ID 6558c44e215f7deeb2ec2ed7 deleted successfully."
 
         when:
-        def result = reportController.deleteReport("6558c44e215f7deeb2ec2ed7")
+        def result = reportController.deleteReport(reportId)
 
         then:
-        1 * reportService.deleteReport("6558c44e215f7deeb2ec2ed7") >> deleteResult
+        1 * reportService.deleteReport(reportId) >> deleteResult
         0 * _
 
         and:
