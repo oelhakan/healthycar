@@ -9,7 +9,10 @@ class RideControllerTest extends Specification {
     def rideService = Mock(RideService)
     def rideController = new RideController(rideService: rideService)
 
-    def 'should get all rides from rideService'(){
+    def rideId = "6558c44e3da3080fcf9da95a"
+    def userId = "6558c44eaecff28d670c45df"
+
+    def 'should get all rides from rideService'() {
         given:
         def ride1 = Mock(Ride)
         def ride2 = Mock(Ride)
@@ -26,9 +29,8 @@ class RideControllerTest extends Specification {
         result == rides
     }
 
-    def 'should get ride with id from rideService'(){
+    def 'should get ride with id from rideService'() {
         given:
-        def rideId = "6558c44e3da3080fcf9da95a"
         def ride = Mock(Ride)
 
         when:
@@ -42,9 +44,8 @@ class RideControllerTest extends Specification {
         result == ride
     }
 
-    def 'should get user rides from ridesService'(){
+    def 'should get user rides from ridesService'() {
         given:
-        def userId = "6558c44eaecff28d670c45df"
         def ride1 = Mock(Ride)
         def ride2 = Mock(Ride)
         def rides = [ride1, ride2]
@@ -60,7 +61,7 @@ class RideControllerTest extends Specification {
         result == rides
     }
 
-    def 'should get latest ride of car from rideService'(){
+    def 'should get latest ride of car from rideService'() {
         given:
         def userId = "6558c44eaecff28d670c45df"
         def ride = Mock(Ride)
@@ -76,7 +77,7 @@ class RideControllerTest extends Specification {
         result == ride
     }
 
-    def 'should send the ride to be updated/inserted to rideService'(){
+    def 'should send the ride to be updated/inserted to rideService'() {
         given:
         def ride = Mock(Ride)
 
@@ -91,7 +92,7 @@ class RideControllerTest extends Specification {
         result == ride
     }
 
-    def 'should send ID of the ride to be deleted to rideService'(){
+    def 'should send ID of the ride to be deleted to rideService'() {
         given:
         def deleteResult = "Ride with ID 6558c44e3da3080fcf9da95a deleted successfully."
 

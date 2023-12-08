@@ -9,7 +9,10 @@ class CarControllerTest extends Specification {
     def carService = Mock(CarService)
     def carController = new CarController(carService: carService)
 
-    def 'should get all cars from carService'(){
+    def carId = "65689b42444cbf0c24cabcf5"
+    def ownerId = "6558c44eaecff28d670c45df"
+
+    def 'should get all cars from carService'() {
         given:
         def car1 = Mock(Car)
         def car2 = Mock(Car)
@@ -26,9 +29,8 @@ class CarControllerTest extends Specification {
         result == cars
     }
 
-    def 'should get car with id from carService'(){
+    def 'should get car with id from carService'() {
         given:
-        def carId = "65689b42444cbf0c24cabcf5"
         def car = Mock(Car)
 
         when:
@@ -42,9 +44,8 @@ class CarControllerTest extends Specification {
         result == car
     }
 
-    def 'should get users cars from carService'(){
+    def 'should get users cars from carService'() {
         given:
-        def ownerId = "6558c44eaecff28d670c45df"
         def car1 = Mock(Car)
         def car2 = Mock(Car)
         def cars = [car1, car2]
@@ -60,7 +61,7 @@ class CarControllerTest extends Specification {
         result == cars
     }
 
-    def 'should send the car to be updated/inserted to carService'(){
+    def 'should send the car to be updated/inserted to carService'() {
         given:
         def car = Mock(Car)
 
@@ -75,9 +76,8 @@ class CarControllerTest extends Specification {
         result == car
     }
 
-    def 'should send ID of the car to be deleted to carService'(){
+    def 'should send ID of the car to be deleted to carService'() {
         given:
-        def carId = "65689b42444cbf0c24cabcf5"
         def deleteResult = "Car with ID 65689b42444cbf0c24cabcf5 deleted successfully."
 
         when:

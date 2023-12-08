@@ -1,6 +1,6 @@
 package pl.edu.pwr.healthycar.service.configuration
 
-import org.springframework.web.servlet.config.annotation.CorsRegistration
+
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import spock.lang.Specification
 
@@ -8,7 +8,7 @@ class WebConfigurationTest extends Specification {
 
     def webConfiguration = new WebConfiguration()
 
-    def 'should add mapping to registry'(){
+    def 'should add mapping to registry'() {
         given:
         def corsRegistry = new CorsRegistry()
 

@@ -9,7 +9,10 @@ class ReportControllerTest extends Specification {
     def reportService = Mock(ReportService)
     def reportController = new ReportController(reportService: reportService)
 
-    def 'should get all reports from reportService'(){
+    def reportId = "6558c44e215f7deeb2ec2ed7"
+    def carId = "6558c44e215f7deeb2ec2ed7"
+
+    def 'should get all reports from reportService'() {
         given:
         def report1 = Mock(Report)
         def report2 = Mock(Report)
@@ -26,9 +29,8 @@ class ReportControllerTest extends Specification {
         result == reports
     }
 
-    def 'should get report with id from reportService'(){
+    def 'should get report with id from reportService'() {
         given:
-        def reportId = "65689b42444cbf0c24cabcf5"
         def report = Mock(Report)
 
         when:
@@ -42,9 +44,8 @@ class ReportControllerTest extends Specification {
         result == report
     }
 
-    def 'should get cars reports from reportService'(){
+    def 'should get cars reports from reportService'() {
         given:
-        def carId = "6558c44e215f7deeb2ec2ed7"
         def report1 = Mock(Report)
         def report2 = Mock(Report)
         def reports = [report1, report2]
@@ -60,7 +61,7 @@ class ReportControllerTest extends Specification {
         result == reports
     }
 
-    def 'should send the report to be updated/inserted to reportService'(){
+    def 'should send the report to be updated/inserted to reportService'() {
         given:
         def report = Mock(Report)
 
@@ -75,9 +76,8 @@ class ReportControllerTest extends Specification {
         result == report
     }
 
-    def 'should send ID of the report to be deleted to reportService'(){
+    def 'should send ID of the report to be deleted to reportService'() {
         given:
-        def reportId = "6558c44e215f7deeb2ec2ed7"
         def deleteResult = "Report with ID 6558c44e215f7deeb2ec2ed7 deleted successfully."
 
         when:

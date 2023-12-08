@@ -11,7 +11,9 @@ class UserControllerTest extends Specification {
     def userService = Mock(UserService)
     def userController = new UserController(userService: userService)
 
-    def 'should get all users from userService'(){
+    def userId = "6558c44eaecff28d670c45df"
+
+    def 'should get all users from userService'() {
         given:
         def user1 = Mock(User)
         def user2 = Mock(User)
@@ -28,9 +30,8 @@ class UserControllerTest extends Specification {
         result == users
     }
 
-    def 'should get user with id from userService'(){
+    def 'should get user with id from userService'() {
         given:
-        def userId = "6558c44eaecff28d670c45df"
         def user = Mock(User)
 
         when:
@@ -44,7 +45,7 @@ class UserControllerTest extends Specification {
         result == user
     }
 
-    def 'should send the user to be updated/inserted to userService'(){
+    def 'should send the user to be updated/inserted to userService'() {
         given:
         def user = Mock(User)
 
@@ -59,9 +60,8 @@ class UserControllerTest extends Specification {
         result == user
     }
 
-    def 'should send ID of the user to be deleted to userService'(){
+    def 'should send ID of the user to be deleted to userService'() {
         given:
-        def userId = "6558c44eaecff28d670c45df"
         def deleteResult = "User with ID 6558c44eaecff28d670c45df deleted successfully."
 
         when:
@@ -75,7 +75,7 @@ class UserControllerTest extends Specification {
         result == deleteResult
     }
 
-    def 'should send login info of user to userService to log in'(){
+    def 'should send login info of user to userService to log in'() {
         given:
         def loginInfo = Mock(LoginInfo)
         def user = Mock(User)
@@ -91,7 +91,7 @@ class UserControllerTest extends Specification {
         result == user
     }
 
-    def 'should send reset info of user to userService to reset password'(){
+    def 'should send reset info of user to userService to reset password'() {
         given:
         def resetInfo = new ResetInfo("atahanergurhan@bunga.com")
         def resetResult = "Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email."
