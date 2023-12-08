@@ -20,6 +20,6 @@ class WebConfigurationTest extends Specification {
 
         and:
         corsRegistry.registrations.size() == 1
-        corsRegistry.registrations.get(0).pathPattern == "/**"
+        corsRegistry.registrations.get(0).pathPattern == '/**'
     }
 }

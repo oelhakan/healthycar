@@ -9,8 +9,8 @@ class RideControllerTest extends Specification {
     def rideService = Mock(RideService)
     def rideController = new RideController(rideService: rideService)
 
-    def rideId = "6558c44e3da3080fcf9da95a"
-    def userId = "6558c44eaecff28d670c45df"
+    def rideId = '6558c44e3da3080fcf9da95a'
+    def userId = '6558c44eaecff28d670c45df'
 
     def 'should get all rides from rideService'() {
         given:
@@ -63,7 +63,6 @@ class RideControllerTest extends Specification {
 
     def 'should get latest ride of car from rideService'() {
         given:
-        def userId = "6558c44eaecff28d670c45df"
         def ride = Mock(Ride)
 
         when:
@@ -94,13 +93,13 @@ class RideControllerTest extends Specification {
 
     def 'should send ID of the ride to be deleted to rideService'() {
         given:
-        def deleteResult = "Ride with ID 6558c44e3da3080fcf9da95a deleted successfully."
+        def deleteResult = 'Ride with ID 6558c44e3da3080fcf9da95a deleted successfully.'
 
         when:
-        def result = rideController.deleteRide("6558c44e3da3080fcf9da95a")
+        def result = rideController.deleteRide(rideId)
 
         then:
-        1 * rideService.deleteRide("6558c44e3da3080fcf9da95a") >> deleteResult
+        1 * rideService.deleteRide(rideId) >> deleteResult
         0 * _
 
         and:

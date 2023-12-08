@@ -9,8 +9,8 @@ class ReportControllerTest extends Specification {
     def reportService = Mock(ReportService)
     def reportController = new ReportController(reportService: reportService)
 
-    def reportId = "6558c44e215f7deeb2ec2ed7"
-    def carId = "6558c44e215f7deeb2ec2ed7"
+    def reportId = '6558c44e215f7deeb2ec2ed7'
+    def carId = '6558c44e215f7deeb2ec2ed7'
 
     def 'should get all reports from reportService'() {
         given:
@@ -78,7 +78,7 @@ class ReportControllerTest extends Specification {
 
     def 'should send ID of the report to be deleted to reportService'() {
         given:
-        def deleteResult = "Report with ID 6558c44e215f7deeb2ec2ed7 deleted successfully."
+        def deleteResult = 'Report with ID 6558c44e215f7deeb2ec2ed7 deleted successfully.'
 
         when:
         def result = reportController.deleteReport(reportId)

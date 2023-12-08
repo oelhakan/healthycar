@@ -12,11 +12,12 @@ class CarServiceTest extends Specification {
 
     def carRepository = Mock(CarRepository)
     def userRepository = Mock(UserRepository)
-    def carService = new CarService(carRepository: carRepository,
+    def carService = new CarService(
+            carRepository: carRepository,
             userRepository: userRepository)
 
-    def carId = "65689b42444cbf0c24cabcf5"
-    def ownerId = "6558c44eaecff28d670c45df"
+    def carId = '65689b42444cbf0c24cabcf5'
+    def ownerId = '6558c44eaecff28d670c45df'
 
     def 'should find and return all cars from db'() {
         given:
@@ -88,15 +89,16 @@ class CarServiceTest extends Specification {
         def car = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2017)
-                .build()
+                .year(2017).build()
         def carOptional = Optional.of(car)
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(true).isFO(false).carCount(5).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(true)
+                .isFO(false)
+                .carCount(5).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -106,7 +108,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(carId) >> carOptional
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -118,15 +123,16 @@ class CarServiceTest extends Specification {
         def car = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2017)
-                .build()
+                .year(2017).build()
         def carOptional = Optional.of(car)
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(false).isFO(true).carCount(5).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(false)
+                .isFO(true)
+                .carCount(5).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -136,7 +142,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(carId) >> carOptional
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -148,15 +157,16 @@ class CarServiceTest extends Specification {
         def car = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2017)
-                .build()
+                .year(2017).build()
         def carOptional = Optional.of(car)
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(true).isFO(true).carCount(5).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(true)
+                .isFO(true)
+                .carCount(5).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -166,7 +176,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(carId) >> carOptional
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -178,15 +191,16 @@ class CarServiceTest extends Specification {
         def car = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2017)
-                .build()
+                .year(2017).build()
         def carOptional = Optional.of(car)
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(false).isFO(false).carCount(1).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(false)
+                .isFO(false)
+                .carCount(1).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -196,7 +210,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(carId) >> carOptional
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -208,9 +225,11 @@ class CarServiceTest extends Specification {
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(false).isFO(false).carCount(2).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(false)
+                .isFO(false)
+                .carCount(2).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -219,7 +238,7 @@ class CarServiceTest extends Specification {
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         def exception = thrown(ResponseStatusException)
-        exception.message == "403 FORBIDDEN \"Car Count Limit Exceeded!\""
+        exception.message == '403 FORBIDDEN \"Car Count Limit Exceeded!\"'
         0 * _
 
         and:
@@ -232,9 +251,11 @@ class CarServiceTest extends Specification {
         def newCar = Car.builder()
                 .id(carId)
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(true).isFO(true).carCount(5).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(true)
+                .isFO(true)
+                .carCount(5).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -244,7 +265,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(carId) >> carOptional
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -255,9 +279,11 @@ class CarServiceTest extends Specification {
         given:
         def newCar = Car.builder()
                 .ownerId(ownerId)
-                .year(2019)
-                .build()
-        def owner = User.builder().isAdmin(true).isFO(true).carCount(5).build()
+                .year(2019).build()
+        def owner = User.builder()
+                .isAdmin(true)
+                .isFO(true)
+                .carCount(5).build()
         def ownerOptional = Optional.of(owner)
 
         when:
@@ -267,7 +293,10 @@ class CarServiceTest extends Specification {
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
         1 * carRepository.findById(null) >> { throw new IllegalArgumentException() }
         1 * carRepository.save(newCar) >> newCar
-        1 * userRepository.save(User.builder().isAdmin(owner.getIsAdmin()).isFO(owner.getIsFO()).carCount(owner.getCarCount() + 1).build())
+        1 * userRepository.save(User.builder()
+                .isAdmin(owner.getIsAdmin())
+                .isFO(owner.getIsFO())
+                .carCount(owner.getCarCount() + 1).build())
         0 * _
 
         and:
@@ -276,11 +305,15 @@ class CarServiceTest extends Specification {
 
     def 'should delete car with given id from db - success'() {
         given:
-        def owner = User.builder().id(ownerId).carCount(2).build()
+        def owner = User.builder()
+                .id(ownerId)
+                .carCount(2).build()
         def ownerOptional = Optional.of(owner)
-        def car = Car.builder().id(carId).ownerId(ownerId).build()
+        def car = Car.builder()
+                .id(carId)
+                .ownerId(ownerId).build()
         def carOptional = Optional.of(car)
-        def deleteResult = "Car with ID 65689b42444cbf0c24cabcf5 deleted successfully."
+        def deleteResult = 'Car with ID 65689b42444cbf0c24cabcf5 deleted successfully.'
 
         when:
         def result = carService.deleteCar(carId)
@@ -288,7 +321,9 @@ class CarServiceTest extends Specification {
         then:
         1 * carRepository.findById(new ObjectId(carId)) >> carOptional
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
-        1 * userRepository.save(User.builder().id(ownerId).carCount(owner.getCarCount() - 1).build())
+        1 * userRepository.save(User.builder()
+                .id(ownerId)
+                .carCount(owner.getCarCount() - 1).build())
         1 * carRepository.deleteById(carId)
         0 * _
 
@@ -299,7 +334,7 @@ class CarServiceTest extends Specification {
     def 'should delete car with given id from db - fail'() {
         given:
         def carOptional = Optional.empty()
-        def deleteResult = "Car with ID 65689b42444cbf0c24cabcf5 is not present in DB."
+        def deleteResult = 'Car with ID 65689b42444cbf0c24cabcf5 is not present in DB.'
 
         when:
         def result = carService.deleteCar(carId)

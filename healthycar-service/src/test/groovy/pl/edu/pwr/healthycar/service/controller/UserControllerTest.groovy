@@ -11,7 +11,7 @@ class UserControllerTest extends Specification {
     def userService = Mock(UserService)
     def userController = new UserController(userService: userService)
 
-    def userId = "6558c44eaecff28d670c45df"
+    def userId = '6558c44eaecff28d670c45df'
 
     def 'should get all users from userService'() {
         given:
@@ -62,7 +62,7 @@ class UserControllerTest extends Specification {
 
     def 'should send ID of the user to be deleted to userService'() {
         given:
-        def deleteResult = "User with ID 6558c44eaecff28d670c45df deleted successfully."
+        def deleteResult = 'User with ID 6558c44eaecff28d670c45df deleted successfully.'
 
         when:
         def result = userController.deleteUser(userId)
@@ -93,8 +93,8 @@ class UserControllerTest extends Specification {
 
     def 'should send reset info of user to userService to reset password'() {
         given:
-        def resetInfo = new ResetInfo("atahanergurhan@bunga.com")
-        def resetResult = "Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email."
+        def resetInfo = new ResetInfo('atahanergurhan@bunga.com')
+        def resetResult = 'Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email.'
 
         when:
         def result = userController.resetPassword(resetInfo)

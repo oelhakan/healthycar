@@ -13,9 +13,9 @@ class RideServiceTest extends Specification {
     def rideRepository = Mock(RideRepository)
     def rideService = new RideService(rideRepository: rideRepository)
 
-    def rideId = "6558c44e3da3080fcf9da95a"
-    def userId = "6558c44eaecff28d670c45df"
-    def carId = "6558c44e215f7deeb2ec2ed7"
+    def rideId = '6558c44e3da3080fcf9da95a'
+    def userId = '6558c44eaecff28d670c45df'
+    def carId = '6558c44e215f7deeb2ec2ed7'
 
     def 'should find and return all rides from db'() {
         given:
@@ -84,8 +84,10 @@ class RideServiceTest extends Specification {
 
     def 'should find and return latest ride of given car from db - ride'() {
         given:
-        def ride1 = Ride.builder().date(LocalDateTime.now()).build()
-        def ride2 = Ride.builder().date(LocalDateTime.now().plusDays(1)).build()
+        def ride1 = Ride.builder()
+                .date(LocalDateTime.now()).build()
+        def ride2 = Ride.builder()
+                .date(LocalDateTime.now().plusDays(1)).build()
         def rides = [ride1, ride2]
 
         when:
@@ -118,13 +120,11 @@ class RideServiceTest extends Specification {
         given:
         def ride = Ride.builder()
                 .id(rideId)
-                .readings([])
-                .build()
+                .readings([]).build()
         def rideOptional = Optional.of(ride)
         def newRide = Ride.builder()
                 .id(rideId)
-                .readings([Mock(Reading)])
-                .build()
+                .readings([Mock(Reading)]).build()
 
         when:
         def result = rideService.upsertRide(newRide)
@@ -141,7 +141,8 @@ class RideServiceTest extends Specification {
     def 'should insert new ride and return saved ride'() {
         given:
         def rideOptional = Optional.empty()
-        def newRide = Ride.builder().id(rideId).build()
+        def newRide = Ride.builder()
+                .id(rideId).build()
 
         when:
         def result = rideService.upsertRide(newRide)
@@ -175,7 +176,7 @@ class RideServiceTest extends Specification {
         given:
         def ride = Mock(Ride)
         def rideOptional = Optional.of(ride)
-        def deleteResult = "Ride with ID 6558c44e3da3080fcf9da95a deleted successfully."
+        def deleteResult = 'Ride with ID 6558c44e3da3080fcf9da95a deleted successfully.'
 
         when:
         def result = rideService.deleteRide(rideId)
@@ -192,7 +193,7 @@ class RideServiceTest extends Specification {
     def 'should delete ride with given id from db - fail'() {
         given:
         def rideOptional = Optional.empty()
-        def deleteResult = "Ride with ID 6558c44e3da3080fcf9da95a is not present in DB."
+        def deleteResult = 'Ride with ID 6558c44e3da3080fcf9da95a is not present in DB.'
 
         when:
         def result = rideService.deleteRide(rideId)

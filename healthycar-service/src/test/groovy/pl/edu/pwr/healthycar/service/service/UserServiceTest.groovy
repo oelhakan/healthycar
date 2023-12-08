@@ -12,14 +12,15 @@ class UserServiceTest extends Specification {
 
     def userRepository = Mock(UserRepository)
     def emailSender = Mock(JavaMailSender)
-    def userService = new UserService(userRepository: userRepository,
+    def userService = new UserService(
+            userRepository: userRepository,
             emailSender: emailSender)
 
-    def userId = "6558c44eaecff28d670c45df"
-    def correctEmail = "atahanergurhan@bunga.com"
-    def wrongEmail = "atahanerkgurhan@bunga.com"
-    def correctPassword = "somerandompass1"
-    def wrongPassword = "somerandompass123"
+    def userId = '6558c44eaecff28d670c45df'
+    def correctEmail = 'atahanergurhan@bunga.com'
+    def wrongEmail = 'atahanerkgurhan@bunga.com'
+    def correctPassword = 'somerandompass1'
+    def wrongPassword = 'somerandompass123'
 
     def 'should find and return all users from db'() {
         given:
@@ -72,7 +73,8 @@ class UserServiceTest extends Specification {
     def 'should insert new user and return saved user'() {
         given:
         def userOptional = Optional.empty()
-        def newUser = User.builder().id(userId).build()
+        def newUser = User.builder()
+                .id(userId).build()
 
         when:
         def result = userService.upsertUser(newUser)
@@ -106,13 +108,11 @@ class UserServiceTest extends Specification {
         given:
         def user = User.builder()
                 .id(userId)
-                .firstName("Onur")
-                .build()
+                .firstName('Onur').build()
         def userOptional = Optional.of(user)
         def newUser = User.builder()
                 .id(userId)
-                .firstName("Atahan")
-                .build()
+                .firstName('Atahan').build()
 
         when:
         def result = userService.upsertUser(newUser)
@@ -130,7 +130,7 @@ class UserServiceTest extends Specification {
         given:
         def user = Mock(User)
         def userOptional = Optional.of(user)
-        def deleteResult = "User with ID 6558c44eaecff28d670c45df deleted successfully."
+        def deleteResult = 'User with ID 6558c44eaecff28d670c45df deleted successfully.'
 
         when:
         def result = userService.deleteUser(userId)
@@ -147,7 +147,7 @@ class UserServiceTest extends Specification {
     def 'should delete user with given id from db - fail'() {
         given:
         def userOptional = Optional.empty()
-        def deleteResult = "User with ID 6558c44eaecff28d670c45df is not present in DB."
+        def deleteResult = 'User with ID 6558c44eaecff28d670c45df is not present in DB.'
 
         when:
         def result = userService.deleteUser(userId)
@@ -162,12 +162,13 @@ class UserServiceTest extends Specification {
 
     def 'should log in and return user if user exists and password is correct'() {
         given:
-        def hashedPassword = "\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6"
+        def hashedPassword = '\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6'
         def loginInfo = LoginInfo.builder()
                 .email(correctEmail)
-                .password(correctPassword)
-                .build()
-        def user = User.builder().email(correctEmail).password(hashedPassword).build()
+                .password(correctPassword).build()
+        def user = User.builder()
+                .email(correctEmail)
+                .password(hashedPassword).build()
         def userOptional = Optional.of(user)
 
         when:
@@ -183,12 +184,13 @@ class UserServiceTest extends Specification {
 
     def 'should throw exception if user exists but password is incorrect'() {
         given:
-        def hashedPassword = "\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6"
+        def hashedPassword = '\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6'
         def loginInfo = LoginInfo.builder()
                 .email(correctEmail)
-                .password(wrongPassword)
-                .build()
-        def user = User.builder().email(correctEmail).password(hashedPassword).build()
+                .password(wrongPassword).build()
+        def user = User.builder()
+                .email(correctEmail)
+                .password(hashedPassword).build()
         def userOptional = Optional.of(user)
 
         when:
@@ -197,7 +199,7 @@ class UserServiceTest extends Specification {
         then:
         1 * userRepository.findByEmail(correctEmail) >> userOptional
         def exception = thrown(ResponseStatusException)
-        exception.message == "401 UNAUTHORIZED \"Passwords do not match!\""
+        exception.message == '401 UNAUTHORIZED \"Passwords do not match!\"'
         0 * _
 
         and:
@@ -208,8 +210,7 @@ class UserServiceTest extends Specification {
         given:
         def loginInfo = LoginInfo.builder()
                 .email(wrongEmail)
-                .password(wrongPassword)
-                .build()
+                .password(wrongPassword).build()
         def userOptional = Optional.empty()
 
         when:
@@ -218,7 +219,7 @@ class UserServiceTest extends Specification {
         then:
         1 * userRepository.findByEmail(wrongEmail) >> userOptional
         def exception = thrown(ResponseStatusException)
-        exception.message == "401 UNAUTHORIZED \"No user found with email atahanerkgurhan@bunga.com!\""
+        exception.message == '401 UNAUTHORIZED \"No user found with email atahanerkgurhan@bunga.com!\"'
         0 * _
 
         and:
@@ -227,7 +228,8 @@ class UserServiceTest extends Specification {
 
     def 'should reset password and send email if user exists'() {
         given:
-        def user = User.builder().email(correctEmail).build()
+        def user = User.builder()
+                .email(correctEmail).build()
         def userOptional = Optional.of(user)
 
         when:
@@ -240,7 +242,7 @@ class UserServiceTest extends Specification {
         0 * _
 
         and:
-        result == "Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email."
+        result == 'Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email.'
     }
 
     def 'should throw exception if resetting user does not exist'() {
@@ -253,7 +255,7 @@ class UserServiceTest extends Specification {
         then:
         1 * userRepository.findByEmail(wrongEmail) >> userOptional
         def exception = thrown(ResponseStatusException)
-        exception.message == "401 UNAUTHORIZED \"No user found with email atahanerkgurhan@bunga.com!\""
+        exception.message == '401 UNAUTHORIZED \"No user found with email atahanerkgurhan@bunga.com!\"'
         0 * _
 
         and:
