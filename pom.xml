@@ -23,8 +23,9 @@
         <java.version>17</java.version>
         <spock.version>2.3-groovy-4.0</spock.version>
         <jbcrypt.version>0.4.3</jbcrypt.version>
-        <spring-mail.version>3.0.4</spring-mail.version>
+        <spring.mail.version>3.0.4</spring.mail.version>
         <passay.version>1.6.4</passay.version>
+        <jacoco.version>0.8.11</jacoco.version>
     </properties>
     <dependencies>
         <dependency>
@@ -65,7 +66,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
-            <version>${spring-mail.version}</version>
+            <version>${spring.mail.version}</version>
         </dependency>
         <dependency>
             <groupId>org.passay</groupId>
@@ -87,6 +88,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
             </plugin>
         </plugins>
     </build>
