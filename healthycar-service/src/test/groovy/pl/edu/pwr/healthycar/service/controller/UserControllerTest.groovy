@@ -23,7 +23,7 @@ class UserControllerTest extends Specification {
         def result = userController.getUsers()
 
         then:
-        1 * userService.getUsers() >> users
+        1 * userService.getAll() >> users
         0 * _
 
         and:
@@ -38,7 +38,7 @@ class UserControllerTest extends Specification {
         def result = userController.getUser(userId)
 
         then:
-        1 * userService.getUser(userId) >> user
+        1 * userService.getOne(userId) >> user
         0 * _
 
         and:
@@ -53,7 +53,7 @@ class UserControllerTest extends Specification {
         def result = userController.upsertUser(user)
 
         then:
-        1 * userService.upsertUser(user) >> user
+        1 * userService.upsert(user) >> user
         0 * _
 
         and:
@@ -68,7 +68,7 @@ class UserControllerTest extends Specification {
         def result = userController.deleteUser(userId)
 
         then:
-        1 * userService.deleteUser(userId) >> deleteResult
+        1 * userService.delete(userId) >> deleteResult
         0 * _
 
         and:

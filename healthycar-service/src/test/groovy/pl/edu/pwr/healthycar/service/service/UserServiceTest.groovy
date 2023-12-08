@@ -29,7 +29,7 @@ class UserServiceTest extends Specification {
         def users = [user1, user2]
 
         when:
-        def result = userService.getUsers()
+        def result = userService.getAll()
 
         then:
         1 * userRepository.findAll() >> users
@@ -45,7 +45,7 @@ class UserServiceTest extends Specification {
         def userOptional = Optional.of(user)
 
         when:
-        def result = userService.getUser(userId)
+        def result = userService.getOne(userId)
 
         then:
         1 * userRepository.findById(new ObjectId(userId)) >> userOptional
@@ -60,7 +60,7 @@ class UserServiceTest extends Specification {
         def userOptional = Optional.empty()
 
         when:
-        def result = userService.getUser(userId)
+        def result = userService.getOne(userId)
 
         then:
         1 * userRepository.findById(new ObjectId(userId)) >> userOptional
@@ -77,7 +77,7 @@ class UserServiceTest extends Specification {
                 .id(userId).build()
 
         when:
-        def result = userService.upsertUser(newUser)
+        def result = userService.upsert(newUser)
 
         then:
         1 * userRepository.findById(userId) >> userOptional
@@ -93,7 +93,7 @@ class UserServiceTest extends Specification {
         def newUser = User.builder().build()
 
         when:
-        def result = userService.upsertUser(newUser)
+        def result = userService.upsert(newUser)
 
         then:
         1 * userRepository.findById(null) >> { throw new IllegalArgumentException() }
@@ -115,7 +115,7 @@ class UserServiceTest extends Specification {
                 .firstName('Atahan').build()
 
         when:
-        def result = userService.upsertUser(newUser)
+        def result = userService.upsert(newUser)
 
         then:
         1 * userRepository.findById(userId) >> userOptional
@@ -133,7 +133,7 @@ class UserServiceTest extends Specification {
         def deleteResult = 'User with ID 6558c44eaecff28d670c45df deleted successfully.'
 
         when:
-        def result = userService.deleteUser(userId)
+        def result = userService.delete(userId)
 
         then:
         1 * userRepository.findById(new ObjectId(userId)) >> userOptional
@@ -150,7 +150,7 @@ class UserServiceTest extends Specification {
         def deleteResult = 'User with ID 6558c44eaecff28d670c45df is not present in DB.'
 
         when:
-        def result = userService.deleteUser(userId)
+        def result = userService.delete(userId)
 
         then:
         1 * userRepository.findById(new ObjectId(userId)) >> userOptional

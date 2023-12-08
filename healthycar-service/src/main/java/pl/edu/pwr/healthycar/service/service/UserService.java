@@ -32,19 +32,19 @@ public class UserService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public List<User> getUsers() {
+    public List<User> getAll() {
         List<User> users = userRepository.findAll();
         log.debug(String.format("Queried DB for users. Found %d reports.", users.size()));
         return users;
     }
 
-    public User getUser(String id) {
+    public User getOne(String id) {
         Optional<User> user = userRepository.findById(new ObjectId(id));
         log.debug("Queried DB for user with ID " + id + ". User " + (user.isPresent() ? "exists." : "does not exist."));
         return user.orElse(null);
     }
 
-    public User upsertUser(User user) {
+    public User upsert(User user) {
         log.debug("Adding user with request body " + user);
 
         try {
@@ -71,7 +71,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String deleteUser(String id) {
+    public String delete(String id) {
         Optional<User> user = userRepository.findById(new ObjectId(id));
         log.debug("Queried DB for user with ID " + id + ". User " + (user.isPresent() ? "exists." : "does not exist."));
         if (user.isPresent()) {

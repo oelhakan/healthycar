@@ -24,7 +24,7 @@ class RideServiceTest extends Specification {
         def rides = [ride1, ride2]
 
         when:
-        def result = rideService.getRides()
+        def result = rideService.getAll()
 
         then:
         1 * rideRepository.findAll() >> rides
@@ -40,7 +40,7 @@ class RideServiceTest extends Specification {
         def rideOptional = Optional.of(ride)
 
         when:
-        def result = rideService.getRide(rideId)
+        def result = rideService.getOne(rideId)
 
         then:
         1 * rideRepository.findById(new ObjectId(rideId)) >> rideOptional
@@ -55,7 +55,7 @@ class RideServiceTest extends Specification {
         def rideOptional = Optional.empty()
 
         when:
-        def result = rideService.getRide(rideId)
+        def result = rideService.getOne(rideId)
 
         then:
         1 * rideRepository.findById(new ObjectId(rideId)) >> rideOptional
@@ -127,7 +127,7 @@ class RideServiceTest extends Specification {
                 .readings([Mock(Reading)]).build()
 
         when:
-        def result = rideService.upsertRide(newRide)
+        def result = rideService.upsert(newRide)
 
         then:
         1 * rideRepository.findById(rideId) >> rideOptional
@@ -145,7 +145,7 @@ class RideServiceTest extends Specification {
                 .id(rideId).build()
 
         when:
-        def result = rideService.upsertRide(newRide)
+        def result = rideService.upsert(newRide)
 
         then:
         1 * rideRepository.findById(rideId) >> rideOptional
@@ -161,7 +161,7 @@ class RideServiceTest extends Specification {
         def newRide = Ride.builder().build()
 
         when:
-        def result = rideService.upsertRide(newRide)
+        def result = rideService.upsert(newRide)
 
         then:
         1 * rideRepository.findById(null) >> { throw new IllegalArgumentException() }
@@ -179,7 +179,7 @@ class RideServiceTest extends Specification {
         def deleteResult = 'Ride with ID 6558c44e3da3080fcf9da95a deleted successfully.'
 
         when:
-        def result = rideService.deleteRide(rideId)
+        def result = rideService.delete(rideId)
 
         then:
         1 * rideRepository.findById(new ObjectId(rideId)) >> rideOptional
@@ -196,7 +196,7 @@ class RideServiceTest extends Specification {
         def deleteResult = 'Ride with ID 6558c44e3da3080fcf9da95a is not present in DB.'
 
         when:
-        def result = rideService.deleteRide(rideId)
+        def result = rideService.delete(rideId)
 
         then:
         1 * rideRepository.findById(new ObjectId(rideId)) >> rideOptional

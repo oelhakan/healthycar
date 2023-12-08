@@ -22,7 +22,7 @@ class RideControllerTest extends Specification {
         def result = rideController.getRides()
 
         then:
-        1 * rideService.getRides() >> rides
+        1 * rideService.getAll() >> rides
         0 * _
 
         and:
@@ -37,7 +37,7 @@ class RideControllerTest extends Specification {
         def result = rideController.getRide(rideId)
 
         then:
-        1 * rideService.getRide(rideId) >> ride
+        1 * rideService.getOne(rideId) >> ride
         0 * _
 
         and:
@@ -84,7 +84,7 @@ class RideControllerTest extends Specification {
         def result = rideController.upsertRide(ride)
 
         then:
-        1 * rideService.upsertRide(ride) >> ride
+        1 * rideService.upsert(ride) >> ride
         0 * _
 
         and:
@@ -99,7 +99,7 @@ class RideControllerTest extends Specification {
         def result = rideController.deleteRide(rideId)
 
         then:
-        1 * rideService.deleteRide(rideId) >> deleteResult
+        1 * rideService.delete(rideId) >> deleteResult
         0 * _
 
         and:

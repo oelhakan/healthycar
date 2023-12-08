@@ -17,13 +17,13 @@ public class ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-    public List<Report> getReports() {
+    public List<Report> getAll() {
         List<Report> reports = reportRepository.findAll();
         log.debug(String.format("Queried DB for reports. Found %d reports.", reports.size()));
         return reports;
     }
 
-    public Report getReport(String id) {
+    public Report getOne(String id) {
         Optional<Report> report = reportRepository.findById(new ObjectId(id));
         log.debug("Queried DB for report with ID " + id + ". Report " + (report.isPresent() ? "exists." : "does not exist."));
         return report.orElse(null);
@@ -35,7 +35,7 @@ public class ReportService {
         return carReports;
     }
 
-    public Report upsertReport(Report report) {
+    public Report upsert(Report report) {
         log.debug("Adding report with request body " + report);
 
         try {
@@ -52,7 +52,7 @@ public class ReportService {
         return reportRepository.save(report);
     }
 
-    public String deleteReport(String id) {
+    public String delete(String id) {
         Optional<Report> report = reportRepository.findById(new ObjectId(id));
         log.debug("Queried DB for report with ID " + id + ". Report " + (report.isPresent() ? "exists." : "does not exist."));
         if (report.isPresent()) {

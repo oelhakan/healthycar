@@ -22,7 +22,7 @@ public class UserController implements UserApi {
     @Override
     public List<User> getUsers() {
         log.debug(Endpoints.buildRequestLog(Endpoints.USERS));
-        List<User> users = userService.getUsers();
+        List<User> users = userService.getAll();
         log.debug(Endpoints.buildResponseLog(Endpoints.USERS) + users);
         return users;
     }
@@ -30,7 +30,7 @@ public class UserController implements UserApi {
     @Override
     public User getUser(String id) {
         log.debug(Endpoints.buildRequestLog(Endpoints.USERS_ID) + id);
-        User user = userService.getUser(id);
+        User user = userService.getOne(id);
         log.debug(Endpoints.buildResponseLog(Endpoints.USERS_ID) + user);
         return user;
     }
@@ -38,7 +38,7 @@ public class UserController implements UserApi {
     @Override
     public User upsertUser(User user) {
         log.debug(Endpoints.buildRequestLog(Endpoints.USERS_SAVE));
-        User savedUser = userService.upsertUser(user);
+        User savedUser = userService.upsert(user);
         log.debug(Endpoints.buildResponseLog(Endpoints.USERS_SAVE) + savedUser);
         return savedUser;
     }
@@ -46,7 +46,7 @@ public class UserController implements UserApi {
     @Override
     public String deleteUser(String id) {
         log.debug(Endpoints.buildRequestLog(Endpoints.USERS_DELETE_ID) + id);
-        String deleteResult = userService.deleteUser(id);
+        String deleteResult = userService.delete(id);
         log.debug(Endpoints.buildResponseLog(Endpoints.USERS_DELETE_ID) + deleteResult);
         return deleteResult;
     }

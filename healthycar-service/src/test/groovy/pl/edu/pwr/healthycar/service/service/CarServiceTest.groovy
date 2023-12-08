@@ -26,7 +26,7 @@ class CarServiceTest extends Specification {
         def cars = [car1, car2]
 
         when:
-        def result = carService.getCars()
+        def result = carService.getAll()
 
         then:
         1 * carRepository.findAll() >> cars
@@ -42,7 +42,7 @@ class CarServiceTest extends Specification {
         def carOptional = Optional.of(car)
 
         when:
-        def result = carService.getCar(carId)
+        def result = carService.getOne(carId)
 
         then:
         1 * carRepository.findById(new ObjectId(carId)) >> carOptional
@@ -57,7 +57,7 @@ class CarServiceTest extends Specification {
         def carOptional = Optional.empty()
 
         when:
-        def result = carService.getCar(carId)
+        def result = carService.getOne(carId)
 
         then:
         1 * carRepository.findById(new ObjectId(carId)) >> carOptional
@@ -102,7 +102,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -136,7 +136,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -170,7 +170,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -204,7 +204,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -233,7 +233,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -259,7 +259,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -287,7 +287,7 @@ class CarServiceTest extends Specification {
         def ownerOptional = Optional.of(owner)
 
         when:
-        def result = carService.upsertCar(newCar)
+        def result = carService.upsert(newCar)
 
         then:
         1 * userRepository.findById(new ObjectId(ownerId)) >> ownerOptional
@@ -316,7 +316,7 @@ class CarServiceTest extends Specification {
         def deleteResult = 'Car with ID 65689b42444cbf0c24cabcf5 deleted successfully.'
 
         when:
-        def result = carService.deleteCar(carId)
+        def result = carService.delete(carId)
 
         then:
         1 * carRepository.findById(new ObjectId(carId)) >> carOptional
@@ -337,7 +337,7 @@ class CarServiceTest extends Specification {
         def deleteResult = 'Car with ID 65689b42444cbf0c24cabcf5 is not present in DB.'
 
         when:
-        def result = carService.deleteCar(carId)
+        def result = carService.delete(carId)
 
         then:
         1 * carRepository.findById(new ObjectId(carId)) >> carOptional

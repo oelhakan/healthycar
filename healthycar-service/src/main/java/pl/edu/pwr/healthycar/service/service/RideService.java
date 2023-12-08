@@ -18,13 +18,13 @@ public class RideService {
     @Autowired
     private RideRepository rideRepository;
 
-    public List<Ride> getRides() {
+    public List<Ride> getAll() {
         List<Ride> rides = rideRepository.findAll();
         log.debug(String.format("Queried DB for rides. Found %d reports.", rides.size()));
         return rides;
     }
 
-    public Ride getRide(String id) {
+    public Ride getOne(String id) {
         Optional<Ride> ride = rideRepository.findById(new ObjectId(id));
         log.debug("Queried DB for ride with ID " + id + ". Ride " + (ride.isPresent() ? "exists." : "does not exist."));
         return ride.orElse(null);
@@ -47,7 +47,7 @@ public class RideService {
         return latestRide;
     }
 
-    public Ride upsertRide(Ride ride) {
+    public Ride upsert(Ride ride) {
         log.debug("Adding ride with request body " + ride);
 
         try {
@@ -64,7 +64,7 @@ public class RideService {
         return rideRepository.save(ride);
     }
 
-    public String deleteRide(String id) {
+    public String delete(String id) {
         Optional<Ride> ride = rideRepository.findById(new ObjectId(id));
         log.debug("Queried DB for ride with ID " + id + ". Ride " + (ride.isPresent() ? "exists." : "does not exist."));
         if (ride.isPresent()) {

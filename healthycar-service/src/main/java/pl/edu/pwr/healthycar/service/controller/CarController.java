@@ -21,7 +21,7 @@ public class CarController implements CarApi {
     @Override
     public List<Car> getCars() {
         log.debug(buildRequestLog(CARS));
-        List<Car> cars = carService.getCars();
+        List<Car> cars = carService.getAll();
         log.debug(buildResponseLog(CARS) + cars);
         return cars;
     }
@@ -29,7 +29,7 @@ public class CarController implements CarApi {
     @Override
     public Car getCar(String id) {
         log.debug(buildRequestLog(CARS_ID) + id);
-        Car car = carService.getCar(id);
+        Car car = carService.getOne(id);
         log.debug(buildResponseLog(CARS_ID) + car);
         return car;
     }
@@ -45,7 +45,7 @@ public class CarController implements CarApi {
     @Override
     public Car upsertCar(Car car) {
         log.debug(buildRequestLog(CARS_SAVE));
-        Car updatedCar = carService.upsertCar(car);
+        Car updatedCar = carService.upsert(car);
         log.debug(buildResponseLog(CARS_SAVE) + updatedCar);
         return updatedCar;
     }
@@ -53,7 +53,7 @@ public class CarController implements CarApi {
     @Override
     public String deleteCar(String id) {
         log.debug(buildRequestLog(CARS_DELETE_ID) + id);
-        String deleteResult = carService.deleteCar(id);
+        String deleteResult = carService.delete(id);
         log.debug(buildResponseLog(CARS_DELETE_ID) + deleteResult);
         return deleteResult;
     }

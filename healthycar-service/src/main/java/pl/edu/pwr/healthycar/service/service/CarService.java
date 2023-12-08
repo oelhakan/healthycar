@@ -24,13 +24,13 @@ public class CarService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Car> getCars() {
+    public List<Car> getAll() {
         List<Car> cars = carRepository.findAll();
         log.debug(String.format("Queried DB for cars. Found %d reports.", cars.size()));
         return cars;
     }
 
-    public Car getCar(String id) {
+    public Car getOne(String id) {
         Optional<Car> car = carRepository.findById(new ObjectId(id));
         log.debug("Queried DB for car with ID " + id + ". Car " + (car.isPresent() ? "exists." : "does not exist."));
         return car.orElse(null);
@@ -42,7 +42,7 @@ public class CarService {
         return userCars;
     }
 
-    public Car upsertCar(Car car) {
+    public Car upsert(Car car) {
         log.debug("Adding car with request body " + car);
         User user = userRepository.findById(new ObjectId(car.getOwnerId())).get();
         log.debug("Queried DB for owner of car with ID " + car.getOwnerId() + ". Owner : " + user);
@@ -87,7 +87,7 @@ public class CarService {
         userRepository.save(user);
     }
 
-    public String deleteCar(String id) {
+    public String delete(String id) {
         Optional<Car> car = carRepository.findById(new ObjectId(id));
         log.debug("Queried DB for car with ID " + id + ". Car " + (car.isPresent() ? "exists." : "does not exist."));
 

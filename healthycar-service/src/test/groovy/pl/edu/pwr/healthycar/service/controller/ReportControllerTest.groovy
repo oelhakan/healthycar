@@ -22,7 +22,7 @@ class ReportControllerTest extends Specification {
         def result = reportController.getReports()
 
         then:
-        1 * reportService.getReports() >> reports
+        1 * reportService.getAll() >> reports
         0 * _
 
         and:
@@ -37,7 +37,7 @@ class ReportControllerTest extends Specification {
         def result = reportController.getReport(reportId)
 
         then:
-        1 * reportService.getReport(reportId) >> report
+        1 * reportService.getOne(reportId) >> report
         0 * _
 
         and:
@@ -69,7 +69,7 @@ class ReportControllerTest extends Specification {
         def result = reportController.upsertReport(report)
 
         then:
-        1 * reportService.upsertReport(report) >> report
+        1 * reportService.upsert(report) >> report
         0 * _
 
         and:
@@ -84,7 +84,7 @@ class ReportControllerTest extends Specification {
         def result = reportController.deleteReport(reportId)
 
         then:
-        1 * reportService.deleteReport(reportId) >> deleteResult
+        1 * reportService.delete(reportId) >> deleteResult
         0 * _
 
         and:

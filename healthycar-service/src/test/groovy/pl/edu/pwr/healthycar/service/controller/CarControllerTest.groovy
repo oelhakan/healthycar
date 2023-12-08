@@ -22,7 +22,7 @@ class CarControllerTest extends Specification {
         def result = carController.getCars()
 
         then:
-        1 * carService.getCars() >> cars
+        1 * carService.getAll() >> cars
         0 * _
 
         and:
@@ -37,7 +37,7 @@ class CarControllerTest extends Specification {
         def result = carController.getCar(carId)
 
         then:
-        1 * carService.getCar(carId) >> car
+        1 * carService.getOne(carId) >> car
         0 * _
 
         and:
@@ -69,7 +69,7 @@ class CarControllerTest extends Specification {
         def result = carController.upsertCar(car)
 
         then:
-        1 * carService.upsertCar(car) >> car
+        1 * carService.upsert(car) >> car
         0 * _
 
         and:
@@ -84,7 +84,7 @@ class CarControllerTest extends Specification {
         def result = carController.deleteCar(carId)
 
         then:
-        1 * carService.deleteCar(carId) >> deleteResult
+        1 * carService.delete(carId) >> deleteResult
         0 * _
 
         and:

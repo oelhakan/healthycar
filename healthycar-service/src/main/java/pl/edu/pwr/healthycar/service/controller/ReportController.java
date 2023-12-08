@@ -21,7 +21,7 @@ public class ReportController implements ReportApi {
     @Override
     public List<Report> getReports() {
         log.debug(buildRequestLog(REPORTS));
-        List<Report> reports = reportService.getReports();
+        List<Report> reports = reportService.getAll();
         log.debug(buildResponseLog(REPORTS) + reports);
         return reports;
     }
@@ -29,7 +29,7 @@ public class ReportController implements ReportApi {
     @Override
     public Report getReport(String id) {
         log.debug(buildRequestLog(REPORTS_ID) + id);
-        Report report = reportService.getReport(id);
+        Report report = reportService.getOne(id);
         log.debug(buildResponseLog(REPORTS_ID) + report);
         return report;
     }
@@ -45,7 +45,7 @@ public class ReportController implements ReportApi {
     @Override
     public Report upsertReport(Report report) {
         log.debug(buildRequestLog(REPORTS_SAVE));
-        Report savedReport = reportService.upsertReport(report);
+        Report savedReport = reportService.upsert(report);
         log.debug(buildResponseLog(REPORTS_SAVE) + savedReport);
         return savedReport;
     }
@@ -53,7 +53,7 @@ public class ReportController implements ReportApi {
     @Override
     public String deleteReport(String id) {
         log.debug(buildRequestLog(REPORTS_DELETE_ID) + id);
-        String deleteResult = reportService.deleteReport(id);
+        String deleteResult = reportService.delete(id);
         log.debug(buildResponseLog(REPORTS_DELETE_ID) + deleteResult);
         return deleteResult;
     }

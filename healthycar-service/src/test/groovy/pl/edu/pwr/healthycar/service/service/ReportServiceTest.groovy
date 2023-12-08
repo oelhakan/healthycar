@@ -20,7 +20,7 @@ class ReportServiceTest extends Specification {
         def reports = [report1, report2]
 
         when:
-        def result = reportService.getReports()
+        def result = reportService.getAll()
 
         then:
         1 * reportRepository.findAll() >> reports
@@ -36,7 +36,7 @@ class ReportServiceTest extends Specification {
         def reportOptional = Optional.of(report)
 
         when:
-        def result = reportService.getReport(reportId)
+        def result = reportService.getOne(reportId)
 
         then:
         1 * reportRepository.findById(new ObjectId(reportId)) >> reportOptional
@@ -51,7 +51,7 @@ class ReportServiceTest extends Specification {
         def reportOptional = Optional.empty()
 
         when:
-        def result = reportService.getReport(reportId)
+        def result = reportService.getOne(reportId)
 
         then:
         1 * reportRepository.findById(new ObjectId(reportId)) >> reportOptional
@@ -89,7 +89,7 @@ class ReportServiceTest extends Specification {
                 .averageSpeed(46.2).build()
 
         when:
-        def result = reportService.upsertReport(newReport)
+        def result = reportService.upsert(newReport)
 
         then:
         1 * reportRepository.findById(reportId) >> reportOptional
@@ -108,7 +108,7 @@ class ReportServiceTest extends Specification {
                 .averageSpeed(46.2).build()
 
         when:
-        def result = reportService.upsertReport(newReport)
+        def result = reportService.upsert(newReport)
 
         then:
         1 * reportRepository.findById(reportId) >> reportOptional
@@ -125,7 +125,7 @@ class ReportServiceTest extends Specification {
                 .averageSpeed(46.2).build()
 
         when:
-        def result = reportService.upsertReport(newReport)
+        def result = reportService.upsert(newReport)
 
         then:
         1 * reportRepository.findById(null) >> { throw new IllegalArgumentException() }
@@ -143,7 +143,7 @@ class ReportServiceTest extends Specification {
         def deleteResult = 'Report with ID 65689b42444cbf0c24cabcf5 deleted successfully.'
 
         when:
-        def result = reportService.deleteReport(reportId)
+        def result = reportService.delete(reportId)
 
         then:
         1 * reportRepository.findById(new ObjectId(reportId)) >> reportOptional
@@ -160,7 +160,7 @@ class ReportServiceTest extends Specification {
         def deleteResult = 'Report with ID 65689b42444cbf0c24cabcf5 is not present in DB.'
 
         when:
-        def result = reportService.deleteReport(reportId)
+        def result = reportService.delete(reportId)
 
         then:
         1 * reportRepository.findById(new ObjectId(reportId)) >> reportOptional

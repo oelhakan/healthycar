@@ -21,7 +21,7 @@ public class RideController implements RideApi {
     @Override
     public List<Ride> getRides() {
         log.debug(buildRequestLog(RIDES));
-        List<Ride> rides = rideService.getRides();
+        List<Ride> rides = rideService.getAll();
         log.debug(buildResponseLog(RIDES) + rides);
         return rides;
     }
@@ -29,7 +29,7 @@ public class RideController implements RideApi {
     @Override
     public Ride getRide(String id) {
         log.debug(buildRequestLog(RIDES_ID) + id);
-        Ride ride = rideService.getRide(id);
+        Ride ride = rideService.getOne(id);
         log.debug(buildResponseLog(RIDES_ID) + ride);
         return ride;
     }
@@ -53,7 +53,7 @@ public class RideController implements RideApi {
     @Override
     public Ride upsertRide(Ride ride) {
         log.debug(buildRequestLog(RIDES_SAVE));
-        Ride savedRide = rideService.upsertRide(ride);
+        Ride savedRide = rideService.upsert(ride);
         log.debug(buildResponseLog(RIDES_SAVE) + savedRide);
         return savedRide;
     }
@@ -61,7 +61,7 @@ public class RideController implements RideApi {
     @Override
     public String deleteRide(String id) {
         log.debug(buildRequestLog(RIDES_DELETE_ID) + id);
-        String deleteResult = rideService.deleteRide(id);
+        String deleteResult = rideService.delete(id);
         log.debug(buildResponseLog(RIDES_DELETE_ID) + deleteResult);
         return deleteResult;
     }
