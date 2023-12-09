@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,9 +21,6 @@ public class Report {
     private String id;
 
     private String carId;
-    private Double averageSpeed;
-    private Double averageRpm;
-    private Double averageFuel;
-    private Double averageAirTemperature;
-    private Integer totalDistance;
+    private LocalDateTime date;
+    private List<GroupedData> groupedData;
 }
