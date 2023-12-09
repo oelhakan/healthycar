@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupedData {
-    String name;
+public class Value {
     Integer speedStart;
     Integer speedEnd;
-    Double average;
+    Double avg;
     Double lower;
     Double upper;
 }
-

@@ -22,5 +22,5 @@ public class Report {
 
     private String carId;
     private LocalDateTime date;
-    private List<GroupedData> groupedData;
+    private List<GroupedSpeedData> groupedSpeedData;
 }
