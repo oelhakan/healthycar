@@ -20,7 +20,7 @@ public class RideService {
 
     public List<Ride> getAll() {
         List<Ride> rides = rideRepository.findAll();
-        log.debug(String.format("Queried DB for rides. Found %d reports.", rides.size()));
+        log.debug(String.format("Queried DB for rides. Found %d rides.", rides.size()));
         return rides;
     }
 

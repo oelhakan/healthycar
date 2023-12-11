@@ -13,6 +13,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import pl.edu.pwr.healthycar.api.model.PasswordChange;
+import pl.edu.pwr.healthycar.api.model.PasswordReset;
 import pl.edu.pwr.healthycar.api.model.User;
 import pl.edu.pwr.healthycar.api.model.LoginInfo;
 import pl.edu.pwr.healthycar.persistence.repository.UserRepository;
@@ -34,7 +36,7 @@ public class UserService {
 
     public List<User> getAll() {
         List<User> users = userRepository.findAll();
-        log.debug(String.format("Queried DB for users. Found %d reports.", users.size()));
+        log.debug(String.format("Queried DB for users. Found %d users.", users.size()));
         return users;
     }
 
@@ -102,26 +104,51 @@ public class UserService {
         }
     }
 
-    public String resetPassword(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        log.debug("Queried DB for user with email " + email + ". User " + (user.isPresent() ? "exists." : "does not exist."));
+    public String resetPassword(PasswordReset passwordReset) {
+        Optional<User> user = userRepository.findByEmail(passwordReset.getEmail());
+        log.debug("Queried DB for user with email " + passwordReset.getEmail() + ". User " + (user.isPresent() ? "exists." : "does not exist."));
 
         if (user.isPresent()) {
             log.debug("User : " + user.get());
             User savedUser = user.get();
             String generatedPassword = generatePassword();
-            log.debug("Generated random password for " + email + ".");
+            log.debug("Generated random password for " + passwordReset.getEmail() + ".");
             log.debug("Hashing user password. Before hashing : " + generatedPassword);
             String hashedPassword = BCrypt.hashpw(generatedPassword, BCrypt.gensalt());
             savedUser.setPassword(hashedPassword);
             log.debug("Finished hashing user password. After hashing : " + hashedPassword);
             userRepository.save(savedUser);
             log.debug("Password reset successful for user " + savedUser);
-            sendSimpleMessage(email, "HealthyCar Password Reset", generatedPassword);
+            sendSimpleMessage(passwordReset.getEmail(), "HealthyCar Password Reset", generatedPassword);
             return "Password reset successful for user " + savedUser.getEmail() + ". Your new password has been sent to your email.";
         } else {
-            log.debug("No user found with email " + email + ". Password reset failed.");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No user found with email " + email + "!");
+            log.debug("No user found with email " + passwordReset.getEmail() + ". Password reset failed.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No user found with email " + passwordReset.getEmail() + "!");
+        }
+    }
+
+    public String changePassword(PasswordChange passwordChange){
+        Optional<User> user = userRepository.findById(new ObjectId(passwordChange.getUserId()));
+        log.debug("Queried DB for user with ID " + passwordChange.getUserId() + ". User " + (user.isPresent() ? "exists." : "does not exist."));
+
+        if(user.isPresent()){
+            log.debug("User : " + user.get());
+            User savedUser = user.get();
+            if(BCrypt.checkpw(passwordChange.getCurrentPassword(), user.get().getPassword())){
+                log.debug("Hashing user password. Before hashing : " + passwordChange.getNewPassword());
+                String hashedPassword = BCrypt.hashpw(passwordChange.getNewPassword(), BCrypt.gensalt());
+                savedUser.setPassword(hashedPassword);
+                log.debug("Finished hashing user password. After hashing : " + hashedPassword);
+                userRepository.save(savedUser);
+                log.debug("Password change successful for user " + savedUser);
+                return "Password change successful for user " + savedUser.getEmail() + ".";
+            }else{
+                log.debug("Password " + passwordChange.getCurrentPassword() + " does not match users password. Password change failed.");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Passwords do not match!");
+            }
+        }else{
+            log.debug("No user found with ID " + passwordChange.getUserId() + ". Password change failed.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No user found with ID " + passwordChange.getUserId() + "!");
         }
     }
 

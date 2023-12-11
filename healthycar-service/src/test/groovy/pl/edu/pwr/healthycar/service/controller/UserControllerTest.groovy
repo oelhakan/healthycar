@@ -1,7 +1,8 @@
 package pl.edu.pwr.healthycar.service.controller
 
 import pl.edu.pwr.healthycar.api.model.LoginInfo
-import pl.edu.pwr.healthycar.api.model.ResetInfo
+import pl.edu.pwr.healthycar.api.model.PasswordChange
+import pl.edu.pwr.healthycar.api.model.PasswordReset
 import pl.edu.pwr.healthycar.api.model.User
 import pl.edu.pwr.healthycar.service.service.UserService
 import spock.lang.Specification
@@ -91,19 +92,35 @@ class UserControllerTest extends Specification {
         result == user
     }
 
-    def 'should send reset info of user to userService to reset password'() {
+    def 'should send password reset info of user to userService to reset password'() {
         given:
-        def resetInfo = new ResetInfo('atahanergurhan@bunga.com')
+        def passwordReset = new PasswordReset('atahanergurhan@bunga.com')
         def resetResult = 'Password reset successful for user atahanergurhan@bunga.com. Your new password has been sent to your email.'
 
         when:
-        def result = userController.resetPassword(resetInfo)
+        def result = userController.resetPassword(passwordReset)
 
         then:
-        1 * userService.resetPassword(resetInfo.getEmail()) >> resetResult
+        1 * userService.resetPassword(passwordReset) >> resetResult
         0 * _
 
         and:
         result == resetResult
+    }
+
+    def 'should send password change info of user to userService to reset password'() {
+        given:
+        def passwordChange = new PasswordChange('65773072398edb03d4b81d85', 'currentPassword', 'newPassword')
+        def changeResult = 'Password change successful for user atahanergurhan@bunga.com.'
+
+        when:
+        def result = userController.changePassword(passwordChange)
+
+        then:
+        1 * userService.changePassword(passwordChange) >> changeResult
+        0 * _
+
+        and:
+        result == changeResult
     }
 }

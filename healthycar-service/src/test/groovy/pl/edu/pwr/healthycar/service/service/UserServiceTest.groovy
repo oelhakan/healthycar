@@ -4,6 +4,8 @@ import org.bson.types.ObjectId
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.pwr.healthycar.api.model.LoginInfo
+import pl.edu.pwr.healthycar.api.model.PasswordChange
+import pl.edu.pwr.healthycar.api.model.PasswordReset
 import pl.edu.pwr.healthycar.api.model.User
 import pl.edu.pwr.healthycar.persistence.repository.UserRepository
 import spock.lang.Specification
@@ -182,7 +184,7 @@ class UserServiceTest extends Specification {
         result == user
     }
 
-    def 'should throw exception if user exists but password is incorrect'() {
+    def 'should throw exception if user logging in exists but password is incorrect'() {
         given:
         def hashedPassword = '\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6'
         def loginInfo = LoginInfo.builder()
@@ -233,7 +235,8 @@ class UserServiceTest extends Specification {
         def userOptional = Optional.of(user)
 
         when:
-        def result = userService.resetPassword(correctEmail)
+        def result = userService.resetPassword(PasswordReset.builder()
+                .email(correctEmail).build())
 
         then:
         1 * userRepository.findByEmail(correctEmail) >> userOptional
@@ -250,7 +253,8 @@ class UserServiceTest extends Specification {
         def userOptional = Optional.empty()
 
         when:
-        def result = userService.resetPassword(wrongEmail)
+        def result = userService.resetPassword(PasswordReset.builder()
+                .email(wrongEmail).build())
 
         then:
         1 * userRepository.findByEmail(wrongEmail) >> userOptional
@@ -260,5 +264,75 @@ class UserServiceTest extends Specification {
 
         and:
         result == null
+    }
+
+    def 'should throw exception if user changing exists but password is incorrect'() {
+        given:
+        def hashedPassword = '\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6'
+        def passwordChange = PasswordChange.builder()
+                .userId(userId)
+                .currentPassword(wrongPassword)
+                .newPassword('atahan123').build()
+        def user = User.builder()
+                .email(correctEmail)
+                .password(hashedPassword).build()
+        def userOptional = Optional.of(user)
+
+        when:
+        def result = userService.changePassword(passwordChange)
+
+        then:
+        1 * userRepository.findById(new ObjectId(userId)) >> userOptional
+        def exception = thrown(ResponseStatusException)
+        exception.message == '401 UNAUTHORIZED \"Passwords do not match!\"'
+        0 * _
+
+        and:
+        result == null
+    }
+
+    def 'should throw exception if user changing does not exist'() {
+        given:
+        def passwordChange = PasswordChange.builder()
+                .userId(userId)
+                .currentPassword(wrongPassword)
+                .newPassword('atahan123').build()
+        def userOptional = Optional.empty()
+
+        when:
+        def result = userService.changePassword(passwordChange)
+
+        then:
+        1 * userRepository.findById(new ObjectId(userId)) >> userOptional
+        def exception = thrown(ResponseStatusException)
+        exception.message == '401 UNAUTHORIZED \"No user found with ID 6558c44eaecff28d670c45df!\"'
+        0 * _
+
+        and:
+        result == null
+    }
+
+    def 'should change password if user exists and password is correct'() {
+        given:
+        def hashedPassword = '\$2a\$10\$hRSHV4c5Q0FRrXkNA9YtU.yLNzkLrM0xod6iCevxLWfaxBgBRP5L6'
+        def passwordChange = PasswordChange.builder()
+                .userId(userId)
+                .currentPassword(correctPassword)
+                .newPassword('atahan123').build()
+        def user = User.builder()
+                .email(correctEmail)
+                .password(hashedPassword).build()
+        def userOptional = Optional.of(user)
+
+        when:
+        def result = userService.changePassword(passwordChange)
+
+        then:
+        1 * userRepository.findById(new ObjectId(userId)) >> userOptional
+        1 * userRepository.save(_)
+        0 * _
+
+        and:
+        result == 'Password change successful for user atahanergurhan@bunga.com.'
     }
 }

@@ -26,7 +26,7 @@ public class CarService {
 
     public List<Car> getAll() {
         List<Car> cars = carRepository.findAll();
-        log.debug(String.format("Queried DB for cars. Found %d reports.", cars.size()));
+        log.debug(String.format("Queried DB for cars. Found %d cars.", cars.size()));
         return cars;
     }
 

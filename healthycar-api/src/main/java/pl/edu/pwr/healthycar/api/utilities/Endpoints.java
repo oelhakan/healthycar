@@ -26,7 +26,8 @@ public class Endpoints {
     public static final String USERS_SAVE = "/users/save";
     public static final String USERS_DELETE_ID = "/users/delete/{id}";
     public static final String USERS_LOGIN = "/users/login";
-    public static final String USERS_RESET = "/users/reset";
+    public static final String USERS_PASSWORD_RESET = "/users/password/reset";
+    public static final String USERS_PASSWORD_CHANGE = "/users/password/change";
 
 
     public static String buildRequestLog(String endpoint) {

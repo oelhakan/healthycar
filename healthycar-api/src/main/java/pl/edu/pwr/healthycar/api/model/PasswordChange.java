@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResetInfo {
-    String email;
+public class PasswordChange {
+    String userId;
+    String currentPassword;
+    String newPassword;
 }
